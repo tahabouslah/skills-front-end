@@ -14,7 +14,7 @@ export default function useSkills() {
 
     const getSkills = async () => {
         const response = await axios.get("skills");
-        skills.value = response.data.data
+        skills.value = response.data.data;
     };
 
     const getSkill = async (id) => {
