@@ -3,10 +3,10 @@ import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api/v1';
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/v1/';
 
 export default function useSkills() {
-    
+
     const skills = ref([]);
     const skill = ref([]);
     const errors = ref([]);
@@ -25,9 +25,9 @@ export default function useSkills() {
     const storeSkill = async(data) => {
         try {
             await axios.post('skills', data);
-            await router.push({name: "skillIndex"})
+            await router.push({name: "SkillIndex"})
         }catch (error) {
-            if(error.response.status === 422) {
+            if(error.response && error.response.status === 422) {
                 errors.value = error.response.data.errors;
             }
         }
@@ -48,7 +48,7 @@ export default function useSkills() {
     const destroySkill = async(id) => {
         try {
             if(window.confirm("Are you Sure ?")) {
-                return;    
+                return;
             }
             await axios.delete('skills/' + id);
             await getSkills();
@@ -60,5 +60,5 @@ export default function useSkills() {
         }
     }
 
-    return {skills, skill, getSkill,getSkills, updateSkill, destroySkill, errors };
+    return {skills, skill, getSkill,getSkills, updateSkill, destroySkill, errors, storeSkill };
 }
